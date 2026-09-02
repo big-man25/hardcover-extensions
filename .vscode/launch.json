@@ -19,7 +19,7 @@
       "type": "node",
       "presentation": {
         "hidden": false,
-        "group": "Paperback",
+        "group": "Hardcover",
         "order": 1
       },
       "console": "integratedTerminal",

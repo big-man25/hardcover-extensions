@@ -45,7 +45,7 @@ jobs:
       - name: Type-check sources
         run: pnpm run typecheck
 
-      - name: Bundle Paperback repository
+      - name: Bundle extension repository
         run: pnpm run bundle
 
       - name: Verify published artifacts
