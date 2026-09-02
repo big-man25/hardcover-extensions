@@ -166,4 +166,18 @@ const html = `<!doctype html>
 `
 
 await writeFile(path.join(root, 'index.html'), html)
+await writeFile(path.resolve('bundles/index.html'), `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=./0.8/">
+  <link rel="canonical" href="${repositoryURL}/">
+  <title>${escapeHTML(displayName)}</title>
+</head>
+<body>
+  <p><a href="./0.8/">Open ${escapeHTML(displayName)}</a></p>
+</body>
+</html>
+`)
 console.log('Generated Hardcover repository homepage.')
