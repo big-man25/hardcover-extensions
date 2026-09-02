@@ -1,0 +1,130 @@
+# BigMan's Extensions for Hardcover
+
+A Hardcover-compatible repository containing a deliberately small set of
+readable sources, including mature catalogs. It uses the same TypeScript
+extension layout as the source projects it builds upon.
+
+This repository is separate from the Hardcover iOS app. Hardcover does not
+silently bundle or install it; a user must add the published repository URL
+and approve each extension and its network hosts.
+
+## Included sources
+
+Source ratings are kept conservative: broad third-party catalogs are marked
+`MATURE`, explicit-adult extensions are excluded, and sources are not relabeled
+merely to make them easier to install.
+
+| Source | Website | Live audit |
+| --- | --- | --- |
+| Atsu | `atsu.moe` | Sort, status, type, and include/exclude genre filters through chapter pages |
+| MangaDemon | `demonicscans.org` | Sort, status, and include/exclude genre filters through chapter pages |
+| MangaDex | `mangadex.org` | Public API with popularity/latest/year/status/origin/demographic sorting and include/exclude tag filters through chapter pages |
+| McReader | `mgeko.cc` | Sort, status, type, rating, chapter count, availability, and include/exclude genre filters through chapter pages |
+| Pepper&Carrot | `peppercarrot.com` | All complete English episodes and pages through the official documented API |
+| WeebCentral | `weebcentral.com` | Adult-disabled sort, order, official, anime, status, type, and include/exclude genre filters through its rotating page CDNs |
+
+Audit date: August 10, 2026. These websites are independently operated and can
+change or stop working without notice.
+
+Catalog-only sources are not published. MKissa was removed because its public
+site does not provide manga chapter reading.
+
+Pepper&Carrot uses the project's official episode index and image layout. The
+comic is licensed CC BY 4.0, and the extension preserves creator and license
+attribution in title details.
+
+MangaHasu was intentionally removed during the audit because its domain now
+serves a parked advertising page. Upstream sources marked `ADULT`, sources
+whose sites were unreachable, and sources that could not complete a live
+content flow are also omitted.
+
+Comix and MangaDot were evaluated on July 23, 2026 but are not included.
+Comix's reader API requires a rotating client token that is not present in its
+public server-rendered pages. MangaDot's public HTML does not expose a complete
+chapter list, and its `robots.txt` explicitly disallows the API used by its web
+client for that list. This repository does not reproduce access-control tokens
+or call paths that a site has opted out of automated access.
+
+MangaFire, MangaGo, and the requested `mmangafire.to` spelling were also
+evaluated on July 23, 2026 but are not included. `mmangafire.to` does not
+resolve, MangaFire's catalog and reader APIs require a private client token,
+and `mangogo.me` is a parked domain rather than a working manga site.
+
+MangaBall, MangaFox, MangaHere, and MangaKatana were removed after the August
+10 reader audit. MangaBall failed its title flow with HTTP 403, MangaFox's
+first reader image returned HTTP 403, MangaHere returned no chapter pages, and
+MangaKatana was removed because its repeated throttling made library covers and
+refreshes unreliable in normal app use. MangaDex replaces them with a public,
+JSON API-backed source restricted to English chapters and MangaDex's `safe`
+and `suggestive` content ratings. The `erotica` and `pornographic` ratings stay
+excluded.
+
+## Local development
+
+Requirements:
+
+- Node.js 22.13 or newer
+- pnpm 11.9
+
+```sh
+pnpm install
+pnpm test
+pnpm run serve
+```
+
+`pnpm test` type-checks the source, creates the extension repository under
+`bundles/0.8`, and verifies the exact readable source set and generated files.
+`pnpm run verify:live` additionally checks the current Pepper&Carrot API and
+MangaDex discovery through an actual reader image.
+
+## Publishing
+
+Push `main` to a GitHub repository and enable GitHub Pages for the
+`gh-pages` branch. The included workflow type-checks, bundles, and publishes
+the `0.8` folder.
+
+This repository publishes to:
+
+```text
+https://big-man25.github.io/hardcover-extensions/0.8
+```
+
+Add that HTTPS URL from Hardcover's Settings → Repositories screen.
+
+## Adding another website
+
+Create a folder under `src` with:
+
+```text
+src/Example/
+├── Example.ts
+├── ExampleParser.ts
+└── includes/
+    └── icon.png
+```
+
+The main source class should export its `SourceInfo` and implement the
+extension interfaces it supports. Keep parsing in the parser file, declare an
+accurate content rating, use HTTPS endpoints, and keep every runtime network
+host as a literal in the compiled source so Hardcover can disclose it before
+installation.
+
+Before publishing a new source, verify:
+
+1. Discover sections and pagination.
+2. Search and tag filters.
+3. Title metadata and chapter parsing.
+4. Chapter page URLs and CDN hosts.
+5. Cloudflare/login behavior.
+6. The website's terms and your authorization to access and redistribute its
+   content.
+
+## Attribution and rights
+
+The Netsky-derived source implementations retain their original author fields.
+The Pepper&Carrot and MangaDex implementations are original to this repository.
+See `THIRD_PARTY_NOTICES.md` and `LICENSE`.
+
+Extension code licensing does not grant rights to third-party website
+content, names, logos, or services. Confirm those rights before publishing or
+submitting an app that uses these extensions.

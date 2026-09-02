@@ -1,0 +1,39 @@
+{
+  "name": "hardcover-extensions",
+  "version": "1.0.0",
+  "repository": "https://github.com/big-man25/hardcover-extensions",
+  "repositoryName": "BigMan's Extensions for Hardcover",
+  "description": "A Hardcover extension repository of readable manga and comics sources.",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "prebundle": "mkdir -p bundles",
+    "bundle": "paperback bundle --folder=0.8 && node scripts/customize-homepage.mjs",
+    "serve": "paperback serve",
+    "pretest": "pnpm run typecheck",
+    "test": "pnpm run bundle",
+    "posttest": "pnpm run verify",
+    "verify": "node scripts/verify-bundle.mjs && node scripts/verify-runtime.mjs",
+    "verify:live": "node scripts/verify-live.mjs",
+    "typecheck": "tsc --noEmit --noUnusedLocals false"
+  },
+  "author": "Hardcover contributors; source implementations by Netsky",
+  "license": "GPL-3.0-or-later",
+  "packageManager": "pnpm@11.9.0",
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.7",
+    "@types/node": "16.18.126",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-modules-newline": "^0.0.6",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@paperback/toolchain": "^0.8.7",
+    "@paperback/types": "^0.8.7",
+    "cheerio": "1.0.0",
+    "html-entities": "2.5.2"
+  }
+}
